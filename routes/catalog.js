@@ -108,7 +108,7 @@ router.post('/bookinstance/:id/delete', book_instance_controller.bookinstance_de
 router.get('/bookinstance/:id/update', book_instance_controller.bookinstance_update_get);
 
 // POST request to update BookInstance
-router.POST('/bookinstance/:id/update', book_instance_controller.bookinstance_update_post);
+router.post('/bookinstance/:id/update', book_instance_controller.bookinstance_update_post);
 
 // GET request for one BookInstance
 router.get('/bookinstance/:id', book_instance_controller.bookinstance_detail);
@@ -118,4 +118,4 @@ router.get('/bookinstances', book_instance_controller.bookinstance_list);
 
 
 /** EXPORT ROUTER **/
-modeule.exports = router;
+module.exports = router;
