@@ -19,7 +19,9 @@ exports.genre_list = function(req, res) {
 
 // Display detail page for a specific Genre.
 exports.genre_detail = function(req, res) {
+    // Casting mongoose ID
     let id = mongoose.Types.ObjectId(req.params.id);
+
     async.parallel({
         genre: function(callback) {
             Genre.findById(id)
