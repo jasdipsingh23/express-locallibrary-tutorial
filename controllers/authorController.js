@@ -1,4 +1,8 @@
 let Author = require('../models/author');
+let Book = require('../models/book');
+
+let async = require('async');
+let mongoose = require('mongoose');
 
 exports.author_list = (req, res, next) => {
     Author.find()
@@ -12,8 +16,32 @@ exports.author_list = (req, res, next) => {
         });
 };
 
-exports.author_detail = (req, res)  => {
-    res.send('NOT IMPLMEMENTED: Author detail: ' + req.params.id);
+exports.author_detail = (req, res, next)  => {
+
+    let id = mongoose.Types.ObjectId(req.params.id);
+
+    async.parallel({
+        author: function(callback) {
+            Author.findById(id)
+                .exec(callback);
+        },
+        authors_books: function(callback) {
+            Book.find({'author': id}, 'title summary')
+                .exec(callback);
+        },
+    }, function(err, results) {
+        if(err) {
+            return next(err);
+        }
+
+        if(results.author == null) {
+            var err = new Error('Author not found');
+            err.status = 404;
+            return next(err);
+        }
+
+        res.render('author_detail', {title: 'Author Detail', author: results.author, author_books: authors_books});
+    });
 };
 
 exports.author_create_get = (req, res) => {
