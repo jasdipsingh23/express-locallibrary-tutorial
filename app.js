@@ -10,7 +10,14 @@ let catalogRouter = require('./routes/catalog');
 
 let app = express();
 
-// view engine setup
+/** DATABASE CONNECTION **/
+var mongoose = require('mongoose');
+var mongoDB = 'insert_your_database_url_here';
+mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true});
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+/** VIEW ENGINE SETUP **/
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -29,7 +36,7 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+/** ERROR HANDLER **/
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
