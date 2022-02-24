@@ -2,6 +2,8 @@ let Genre = require('../models/genre');
 let Book = require('../models/book');
 let async = require('async');
 
+let mongoose = require('mongoose');
+
 // Display list of all Genre.
 exports.genre_list = function(req, res) {
     Genre.find()
@@ -17,15 +19,15 @@ exports.genre_list = function(req, res) {
 
 // Display detail page for a specific Genre.
 exports.genre_detail = function(req, res) {
-    
+    let id = mongoose.Types.ObjectId(req.params.id);
     async.parallel({
         genre: function(callback) {
-            Genre.findById(req.params.id)
+            Genre.findById(id)
                 .exec(callback);
         },
 
         genre_books: function(callback) {
-            Book.find({'genre': req.params.id})
+            Book.find({'genre': id})
                 .exec(callback);
         },
     }, function(err, results) {
