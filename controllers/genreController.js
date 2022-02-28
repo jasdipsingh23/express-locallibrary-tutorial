@@ -3,7 +3,6 @@ let Book = require('../models/book');
 let async = require('async');
 
 let mongoose = require('mongoose');
-
 const {body, validationResult} = require('express-validator');
 
 // Display list of all Genre.
